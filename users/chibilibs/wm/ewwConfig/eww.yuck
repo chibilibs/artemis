@@ -1,0 +1,94 @@
+(deflisten ws :initial "1"
+  `scripts/wwatch.sh`)
+
+(defwidget bar [screen]
+  (centerbox :orientation "v"
+    (box :class "segment-top"
+         :valign "start"
+      (top :screen screen))
+    (box :valign "center"
+         :class "middle" 
+      (middle :screen screen))
+    (box :valign "end"
+         :class "segment-bottom" 
+      (bottom :screen screen))))
+
+(defwidget top []
+  (workspaces))
+
+(defwidget workspace [name number]
+  (box :class "workspace ${ws == number ? name : "" }"
+       :valign "start"
+       (button :onclick "hyprctl dispatch workspace ${number}" "${ws == number ? "${name}" : "${number}"}")))
+
+(defwidget workspaces []
+  (box :class "workspaces"
+       :orientation "v"
+       :space-evenly false 
+       :halign "center"
+       :spacing 10
+    (workspace :name "1" :number 1)
+    (workspace :name "2" :number 2)
+    (workspace :name "3" :number 3)
+    (workspace :name "4" :number 4)
+    (workspace :name "5" :number 5)
+    (workspace :name "6" :number 6)
+    (workspace :name "7" :number 7)
+    (workspace :name "8" :number 8)
+    (workspace :name "9" :number 9)
+  ))
+
+(defwidget middle [] (time))
+(defwidget time []
+  (box :orientation "v" 
+       :class "time"
+    hour min sec))
+
+
+(defwidget metric [icon ?font-size]
+  (box :class "metric" 
+       :orientation "v"
+    (label :class "metric-icon" 
+           :style {font-size != "" ? "font-size: ${font-size}rem;" : ""} 
+           :text icon)
+    (children)))
+
+(defwidget bottom [screen] 
+  (box :orientation "v"
+       :valign "end"
+       :space-evenly true
+       :spacing "5"
+
+    (metric :icon "" 
+            :font-size 0.8
+      "${round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}%")
+
+    (metric :icon "" "${round(EWW_RAM.used_mem_perc, 0)}%")
+
+    (metric :icon "" "${round(EWW_CPU.avg, 0)}%")
+
+    (box :class "metric" (date))))
+
+(defwidget large-sym [sym]
+  (label :class "metric-icon large-symbol" :text sym))
+
+(defwidget date []
+  (box :orientation "v" 
+       :halign "center" 
+    day_word day month year))
+
+(defpoll hour :interval "1s" "date +%H")
+(defpoll min  :interval "1s" "date +%M")
+(defpoll sec  :interval "1s" "date +%S")
+
+(defpoll day_word :interval "10m" "date +%a | tr [:upper:] [:lower:]")
+(defpoll day      :interval "10m" "date +%d")
+(defpoll month    :interval "1h"  "date +%m")
+(defpoll year     :interval "1h"  "date +%y")
+
+(defwindow bar
+  :monitor 0
+  :exclusive true
+  :geometry (geometry :x "8" :y "0%" :width "2%" :height "97%" :anchor "left center")
+  :reserve (struts :distance "5px" :side "left")
+  (bar :screen 1))
