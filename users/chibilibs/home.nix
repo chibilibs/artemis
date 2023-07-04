@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }: 
+{ inputs, pkgs, ... }:
 let
   ccStdenv = with pkgs.llvmPackages_16; [
     stdenv
@@ -7,9 +7,8 @@ let
     pkgs.clang-tools
     libcxx
     libcxxabi
-];
-in
-{
+  ];
+in {
   home.username = "chibilibs";
   home.homeDirectory = "/home/chibilibs";
   home.stateVersion = "23.11";
@@ -18,9 +17,9 @@ in
   home.packages = [
 
     (pkgs.writeShellScriptBin "discordcanary" ''
-     exec ${pkgs.discord-canary}/bin/discordcanary --enable-features=UseOzonePlatform --ozone-platform=wayland
+      exec ${pkgs.discord-canary}/bin/discordcanary --enable-features=UseOzonePlatform --ozone-platform=wayland
     '')
-  
+
     # utils
     pkgs.ffmpeg
     pkgs.p7zip
@@ -28,6 +27,8 @@ in
     pkgs.obs-studio
     pkgs.nixfmt
     pkgs.gnupg
+    pkgs.unzip
+    pkgs.htop
 
     # wayland stuff
     pkgs.swaybg
@@ -47,10 +48,15 @@ in
     pkgs.nil
 
     # Java stuff
-    pkgs.prismlauncher
     pkgs.jdk17
     pkgs.maven
     pkgs.gradle
+
+    # gaming
+    pkgs.steam
+    pkgs.prismlauncher
+    pkgs.protonup-qt
+    pkgs.gamemode
 
     # music :catJAM:
     pkgs.spotify
@@ -63,16 +69,18 @@ in
     pkgs.material-design-icons
     pkgs.fantasque-sans-mono
     pkgs.font-awesome
-    (pkgs.nerdfonts.override { fonts = [ "Iosevka" "Hack" "FantasqueSansMono" ]; })
+    (pkgs.nerdfonts.override {
+      fonts = [ "Iosevka" "Hack" "FantasqueSansMono" ];
+    })
 
-  ] ++ccStdenv;
+  ] ++ ccStdenv;
 
   imports = [
     ./app/git.nix
     ./app/zsh.nix
     ./app/kitty.nix
     ./app/helix.nix
-    
+
     ./wm/eww.nix
     ./wm/hyprland.nix
 

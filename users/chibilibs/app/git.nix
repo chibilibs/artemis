@@ -5,20 +5,14 @@
     userEmail = "guilhermeladins@gmail.com";
     signing = {
       key = "BDDEFF5362722B11";
-      signByDefault = true;  
+      signByDefault = true;
     };
     extraConfig = {
-      safe = {
-        directory = [ "/etc/nixos" ];
-      };
-    
-      branch = {
-        autosetuprebase = "always";
-      };
-      
-      github = {
-        user = "thechibbis";
-      };
+      safe = { directory = [ "/etc/nixos" ]; };
+
+      branch = { autosetuprebase = "always"; };
+
+      github = { user = "thechibbis"; };
     };
-  }; 
+  };
 }

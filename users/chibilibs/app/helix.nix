@@ -9,21 +9,23 @@
         bufferline = "multiple";
         color-modes = true;
       };
-      editor.cursor-shape = {
-        insert = "bar";
-      };
+      editor.cursor-shape = { insert = "bar"; };
       editor.statusline = {
-        left = ["mode" "spacer" "spinner" "spacer" "diagnostics"];
-        center = ["file-name"];
-        right = ["selections" "position" "file-encoding" "file-line-ending" "file-type"];
+        left = [ "mode" "spacer" "spinner" "spacer" "diagnostics" ];
+        center = [ "file-name" ];
+        right = [
+          "selections"
+          "position"
+          "file-encoding"
+          "file-line-ending"
+          "file-type"
+        ];
         separator = "│";
         mode.normal = "NORMAL";
         mode.insert = "INSERT";
         mode.select = "SELECT";
       };
-      editor.file-picker = {
-        hidden = false;
-      };
+      editor.file-picker = { hidden = false; };
       editor.lsp = {
         display-messages = true;
         display-inlay-hints = true;
@@ -34,7 +36,7 @@
         skip-levels = 1;
       };
       keys.normal = {
-        esc = ["collapse_selection" "keep_primary_selection"];
+        esc = [ "collapse_selection" "keep_primary_selection" ];
       };
     };
   };

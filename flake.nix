@@ -12,16 +12,15 @@
     };
   };
 
-  outputs = inputs @ { nixpkgs, home-manager, hyprland, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, hyprland, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
       };
-    in
-    {
-      nixosConfigurations = { 
+    in {
+      nixosConfigurations = {
         artemis = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [ ./nixos/configuration.nix ];
@@ -31,13 +30,11 @@
       homeConfigurations = {
         chibilibs = inputs.home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules = [
-            hyprland.homeManagerModules.default
-            ./users/chibilibs/home.nix
-          ];
+          modules =
+            [ hyprland.homeManagerModules.default ./users/chibilibs/home.nix ];
 
-          extraSpecialArgs = {inherit inputs;};
-        }; 
+          extraSpecialArgs = { inherit inputs; };
+        };
       };
     };
 }

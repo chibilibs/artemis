@@ -5,10 +5,9 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -41,10 +40,12 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-  };
+  services.xserver.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.defaultSession = "plasmawayland";
+
+  # gtk wayland
+  programs.dconf.enable = true;
 
   # Configure keymap in X11
   services.xserver.layout = "us";
@@ -88,10 +89,14 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-  ];
+  environment.systemPackages = with pkgs; [ vim wget xdg-utils ];
+
+  services.dbus.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -123,19 +128,11 @@
   };
 
   # Tell Xorg to use the nvidia driver
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
-
     # Modesetting is needed for most wayland compositors
     modesetting.enable = true;
-
-    # Use the open source version of the kernel module
-    # Only available on driver 515.43.04+
-    open = true;
-
-    # Enable the nvidia settings menu
-    nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
