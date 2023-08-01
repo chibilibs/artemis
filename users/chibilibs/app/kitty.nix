@@ -4,7 +4,7 @@ in {
   programs.kitty = {
     enable = true;
     shellIntegration.enableZshIntegration = true;
-    theme = "Gruvbox Dark";
+    theme = "Catppuccin-Mocha";
     font = {
       name = "Fantasque Sans Mono";
       package = pkgs.fantasque-sans-mono;
