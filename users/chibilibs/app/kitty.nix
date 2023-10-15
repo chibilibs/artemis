@@ -11,6 +11,6 @@ in {
       size = 10;
     };
 
-    settings = { background_opacity = "0.5"; };
+    settings = { background_opacity = "0.9"; };
   };
 }

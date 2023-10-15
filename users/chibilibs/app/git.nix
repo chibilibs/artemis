@@ -10,7 +10,7 @@
     extraConfig = {
       branch = { autosetuprebase = "always"; };
 
-      github = { user = "thechibbis"; };
+      github = { user = "chibilibs"; };
     };
   };
 }

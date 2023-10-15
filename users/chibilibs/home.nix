@@ -15,16 +15,10 @@ in {
   programs.home-manager.enable = true;
 
   home.packages = [
-    # dev.editors
-    pkgs.jetbrains.idea-ultimate
-    
+    pkgs.firefox
+
     # dev.utils
     pkgs.nixfmt
-
-    # dev.java
-    pkgs.jdk17
-    pkgs.maven
-    pkgs.gradle
 
     # utils
     pkgs.ffmpeg
@@ -48,6 +42,7 @@ in {
     ./app/nvim.nix
 
     ./app/kitty.nix
+    ./app/alacritty.nix
 
     ./wm/i3.nix
   ];
